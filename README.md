@@ -1,25 +1,26 @@
-# ttene.nvim
+# sana-natori-vim
 
-改行するときだけではなくノーマルモード離脱時も喋ります
+Sana Natori say ttene always when I insert newline and escape to normal mode.
 
-## 依存関係
+## Dependencies
 
-- asyncrun.vim(https://github.com/skywind3000/asyncrun.vim)
-- mplayer or afplay
-- magicalstick(https://github.com/himanoa/magicalstick)
+- npm
+- play, mplayer, or afplay
 
-## インストール(dein)
+## Installation
 
-```dein.toml
-[[plugins]]
-repo = "skywind3000/asyncrun.vim"
-
-[[plugins]]
-repo = "himanoa/ttene.nvim"
-hook_post_update = '''
-  let g:dein#plugin.build = 'magicalstick | grep てねっ[0-9] | xargs -P4 -In1 wget n1 -P voices/'
-'''
+```bash
+mkdir -p ~/.vim/pack/sounds/start
+cd ~/.vim/pack/sounds/start
+git clone https://github.com/forno/sana-natori-vim.git
+cd sana-natori-vim
+npm install magicalstick
+`npm bin`/magicalstick | grep てねっ[0-9] | xargs -P4 -In1 wget n1 -P voices/
 ```
+
+## LICENSE
+
+This software is released under the MIT License, see LICENSE.
 
 ## Porting
 

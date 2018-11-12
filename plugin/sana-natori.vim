@@ -1,15 +1,17 @@
 scriptencoding utf-8
-if exists('g:loaded_ttene')
+if exists('g:sana_natori_vim#loaded')
   finish
 endif
 
-let g:loaded_ttene = 1
+let g:sana_natori_vim#loaded = 1
 
-if !exists('g:ttene_play_command') || !executable(g:ttene_play_command)
-  if executable('mplayer')
-    let g:ttene_play_command = 'mplayer'
+if !exists('g:sana_natori_vim#play_command') || !executable(g:sana_natori_vim#play_command)
+  if executable('play')
+    let g:sana_natori_vim#play_command = 'play'
+  elseif executable('mplayer')
+    let g:sana_natori_vim#play_command = 'mplayer'
   elseif executable('afplay')
-    let g:ttene_play_command = 'afplay'
+    let g:sana_natori_vim#play_command = 'afplay'
   else
     finish
   endif
@@ -24,12 +26,7 @@ function! s:play() abort
     sleep 1
     return
   endif
-  if exists(':AsyncRun') isnot 2
-    call s:error('you need to install https://github.com/skywind3000/asyncrun.vim')
-    sleep 1
-    return
-  endif
-  execute 'AsyncRun' g:ttene_play_command voice
+  call job_start([g:sana_natori_vim#play_command, voice], {"in_io": "null", "out_io": "null", "err_io": "null"})
 endfunction
 
 function! s:error(msg) abort
@@ -52,13 +49,13 @@ endfunction
 
 function! s:prepare_mappings() abort
   inoremap <buffer> <CR> <C-o>:<C-u>call <SID>play()<CR><CR>
-  augroup ttene-local
+  augroup sana_natori-local
     autocmd!
     autocmd InsertLeave <buffer> call s:play()
   augroup END
 endfunction
 
-augroup ttene
+augroup sana_natori
   autocmd!
   autocmd InsertEnter * call s:prepare_mappings()
 augroup END
